@@ -1,0 +1,12 @@
+# Compilação Java
+*.class
+
+# Dados locais e logs
+estoque.txt
+bugs e atualizacoes.txt
+bugs e atualiza*
+
+# IDEs e Sistema
+.vscode/
+.idea/
+*.log
