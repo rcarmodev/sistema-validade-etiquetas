@@ -24,10 +24,29 @@ Este software foi desenhado para rodar de forma instantânea, calcular o status 
 
 ## ⚙️ 2. Destaques Técnicos & Engenharia
 
-### A) Arquitetura Leve (Zero-Dependency)
-Construído em **Java Core** puro sem dependências pesadas de terceiros:
+### A) Estrutura do Projeto & Arquitetura Leve (Zero-Dependency)
+Construído em **Java Core** puro sem frameworks pesados de terceiros:
+
+```
+sistema-validade-etiquetas/
+├── Main.java              # Servidor HTTP nativo, roteamento e handlers de requisição
+├── Produto.java           # Entidade de dados, cálculo de shelf-life e bytes ESC/POS
+├── EtiquetasCozinha.jar   # Pacote binário executável standalone
+├── IniciarEtiquetas.bat   # Script de inicialização rápida para terminais Windows
+├── Iniciar.vbs            # Launcher silencioso em background
+└── README.md              # Documentação técnica e operacional
+```
+
 * Utilização do **`com.sun.net.httpserver.HttpServer`** embutido na JDK para fornecer um servidor HTTP local veloz.
 * Interface web responsiva renderizada diretamente para permitir acesso via navegador de qualquer celular ou computador conectado na rede local.
+
+### 📡 Rotas do Servidor HTTP Embutido
+
+| Método | Rota | Descrição |
+| :--- | :--- | :--- |
+| `GET` | `/` | Renderiza o Dashboard com a listagem de insumos ordenada por urgência e formulário de cadastro |
+| `POST` | `/cadastrar` | Processa o formulário, calcula o status via `ChronoUnit` e persiste no `estoque.txt` |
+| `GET` | `/excluir?id={index}` | Remove o insumo do inventário e atualiza a base de dados |
 
 ### B) Integração de Hardware via Comandos ESC/POS
 Para impressoras térmicas de cupom e etiquetas (Epson, Daruma, Elgin, Bematech), o sistema conta com método dedicado de geração de comandos de controle binários em baixo nível (`byte[]`):
