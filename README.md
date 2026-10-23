@@ -65,6 +65,17 @@ Implementação de regras de estilo específicas para rolos de etiquetas adesiva
 }
 ```
 
+### D) Modos de Operação & Engenharia de Implantação (Desktop vs. Mobile)
+A solução foi arquitetada considerando as restrições reais de hardware encontradas em uma operação de cozinha comercial:
+
+1. **Estação Fixa (Terminal PDV / Desktop):**
+   * O navegador utiliza o driver térmico nativo instalado no sistema operacional (Windows/Linux) acionado pelo `window.print()` e estilizado pelo `@media print`.
+2. **Operação Móvel (Smartphone / Tablet na Cozinha):**
+   * Cozinheiros e estoquistas acessam o sistema via navegador do celular na rede local (`http://<IP-DO-SERVIDOR>:8080`).
+   * Como navegadores móveis não possuem drivers térmicos integrados para impressoras industriais/mini-printers, a saída de impressão utiliza integração com spoolers térmicos móveis (como o **RawBT Print Service** no Android), enviando a impressão via Bluetooth ou Wi-Fi da rede da cozinha.
+3. **Evolução Arquitetural Mapeada (Socket RAW 9100):**
+   * O método `gerarComandosImpressora()` em `Produto.java` já gera a carga útil binária ESC/POS para envio futuro via Socket TCP/IP direto para a porta 9100 da impressora na rede local, tornando a impressão 100% server-side e independente de aplicativos no celular.
+
 ---
 
 ## 🚦 3. Matriz de Prioridade Operacional
@@ -105,7 +116,13 @@ O cálculo de validade é executado dinamicamente via `java.time.LocalDate` e `C
    ```bash
    java -jar EtiquetasCozinha.jar
    ```
-3. Abra no navegador: [http://localhost:8080](http://localhost:8080)
+3. Abra no navegador do computador: [http://localhost:8080](http://localhost:8080)
+
+### 📱 Acesso via Celular / Tablet (Rede Local da Cozinha)
+1. Conecte o dispositivo móvel à mesma rede Wi-Fi do computador servidor.
+2. Descubra o IP local da máquina (`ipconfig` no prompt de comando do Windows).
+3. No navegador do smartphone, acesse: `http://<SEU-IP-LOCAL>:8080`.
+4. Para impressão térmica direta no Android, configure o pareamento da impressora via **RawBT Print Service** (Wi-Fi ou Bluetooth).
 
 ---
 
