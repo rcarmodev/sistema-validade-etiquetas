@@ -79,8 +79,8 @@ O cálculo de validade é executado dinamicamente via `java.time.LocalDate` e `C
 ### Executando o JAR
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/rcarmodev/sistema-validade-etiquetas-anvisa.git
-   cd sistema-validade-etiquetas-anvisa
+   git clone https://github.com/rcarmodev/sistema-validade-etiquetas.git
+   cd sistema-validade-etiquetas
    ```
 2. Execute o arquivo empacotado:
    ```bash
